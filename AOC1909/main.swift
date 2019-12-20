@@ -153,23 +153,27 @@ struct Program {
                 case .LessThan:
                     let parameter1 = getNextParameter(parameterMode: parameterModes.getNext())
                     let parameter2 = getNextParameter(parameterMode: parameterModes.getNext())
-                    let parameter3 = memory[instructionPointer]
-                    instructionPointer += 1
-                    if parameter1 < parameter2 {
-                        memory[parameter3] = 1
+                    let parameter3 = getNextParameter(parameterMode: .Immediate)
+                    
+                    let parameterMode = parameterModes.getNext()
+                    let value = parameter1 < parameter2 ? 1 : 0
+                    if parameterMode == .Relative {
+                        memory[parameter3 + relativeBase] = value
                     } else {
-                        memory[parameter3] = 0
+                        memory[parameter3] = 1
                     }
                 case .Equals:
                    let parameter1 = getNextParameter(parameterMode: parameterModes.getNext())
                    let parameter2 = getNextParameter(parameterMode: parameterModes.getNext())
-                   let parameter3 = memory[instructionPointer]
-                   instructionPointer += 1
-                   if parameter1 == parameter2 {
-                       memory[parameter3] = 1
+                   let parameter3 = getNextParameter(parameterMode: .Immediate)
+                   
+                   let parameterMode = parameterModes.getNext()
+                   let value = parameter1 == parameter2 ? 1 : 0
+                   if parameterMode == .Relative {
+                        memory[parameter3 + relativeBase] = value
                    } else {
-                       memory[parameter3] = 0
-                   }
+                        memory[parameter3] = 1
+                    }
                 case .AdjustRelativeBase:
                    let parameter = getNextParameter(parameterMode: parameterModes.getNext())
                    relativeBase += parameter
