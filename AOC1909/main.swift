@@ -120,20 +120,16 @@ struct Program {
                     }
                 case .Halt: ()
                 case .Input:
+                    let parameter = getNextParameter(parameterMode: .Immediate)
                     let parameterMode = parameterModes.getNext()
-                    let parameter = getNextParameter(parameterMode: .Position)
                     if parameterMode == .Relative {
                         memory[parameter + relativeBase] = input
                     } else {
                         memory[parameter] = input
                     }
                 case .Output:
-                    let parameterMode = parameterModes.getNext()
-                    let output = parameterMode == .Relative
-                        ? memory[memory[instructionPointer] + relativeBase]
-                        : memory[memory[instructionPointer]]
-                    print(output)
-                    instructionPointer += 1
+                    let parameter1 = getNextParameter(parameterMode: parameterModes.getNext())
+                    print(parameter1)
                 case .JumpIfTrue:
                     let parameter1 = getNextParameter(parameterMode: parameterModes.getNext())
                     if parameter1 != 0 {
