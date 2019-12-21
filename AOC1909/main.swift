@@ -198,3 +198,7 @@ var program = Program(memory: memoryString, input: 1)
 program.run()
 
 // ---------------------------------------------------------
+
+program = Program(memory: memoryString, input: 2)
+
+program.run()
